@@ -1,3 +1,4 @@
+import 'package:courseapp/models/articles_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -11,10 +12,12 @@ class HomePage extends StatelessWidget {
 
   List<CategoryModel> categories = [];
   List<PopularModel> populars = [];
+  List<ArticleModel> articles = [];
 
   void _getInilitation() {
     categories = CategoryModel.getCategory();
     populars = PopularModel.getPopular();
+    articles = ArticleModel.getArticle();
   }
 
   @override
@@ -35,63 +38,147 @@ class HomePage extends StatelessWidget {
         const SizedBox(
           height: 10,
         ),
-        Container(
-          height: 200,
-          child: ListView.separated(
-            itemBuilder: (context, index) {
-              return Container(
-                width: 200,
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                ),
-                child: Column(
-                  children: [
-                    Container(
-                      
-                      width: 200,
-                      height: 100,
-                      child: Image.asset(populars[index].imageUrl,
-                          fit: BoxFit.cover),
-                    ),
-                    Container(
-                        color: Colors.white,
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 5),
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  populars[index].price,
-                                  style: GoogleFonts.poppins(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w600,
-                                      color: const Color.fromARGB(
-                                          255, 12, 219, 57)),
-                                ),
-                              ),
-                            ),
-                            Text(populars[index].name,
-                                style: GoogleFonts.poppins(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.black)),
-                          ],
-                        ),
+        _popular(),
+        const SizedBox(
+          height: 10,
+        ),
+        _articlesHeader(),
+        const SizedBox(
+          height: 10,
+        ),
+        Expanded(
+          child: ListView.separated(itemBuilder: (context,index) => Container(
+           
+            height: 100,
+            child: Row(
+              children: [
+                Image.asset(articles[index].imageCourse,fit: BoxFit.cover,width: 100,height: 100,),
+                Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(articles[index].titleCourse,style: GoogleFonts.poppins(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black
                       ),
-                    
-                  ],
+                      
+                      ),
+                      Text(
+                        articles[index].typeCourse,
+                        textAlign: TextAlign.left,             
+                      style: GoogleFonts.poppins(
+                        fontSize: 12,
+                        color: const Color(0xffA2ADB1)
+                      ),)
+                    ],
+                  ),
                 ),
-              );
-            },
-            separatorBuilder: (context, index) => const SizedBox(width: 10),
-            itemCount: populars.length,
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-          ),
+                Expanded(child: IconButton(onPressed: () {}, icon: const Icon(Icons.favorite,color: Colors.pinkAccent,)))
+              ],
+            ),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+            ),
+          ), padding: EdgeInsets.only(
+            right: 25,
+            left: 25,
+          )
+          ,separatorBuilder: (context, index) => const SizedBox(height: 10,), itemCount: articles.length,shrinkWrap: true,),
         )
       ])),
+    );
+  }
+
+  Row _articlesHeader() {
+    return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25),
+            child: RichText(
+              text: TextSpan(
+                text: 'Articles',
+                style: GoogleFonts.poppins(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black),
+              ),
+            ),
+          ),
+          const Spacer(),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25),
+            child: RichText(
+              text: TextSpan(
+                text: 'Show All',
+                style: GoogleFonts.poppins(
+                  fontSize: 10,
+                  fontWeight: FontWeight.w600,
+                  color: const Color.fromARGB(255, 19, 209, 85),
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
+  }
+
+  Container _popular() {
+    return Container(
+      height: 200,
+      child: ListView.separated(
+        itemBuilder: (context, index) {
+          return Container(
+            width: 200,
+            decoration: const BoxDecoration(
+              color: Colors.white,
+            ),
+            child: Column(
+              children: [
+                Container(
+                  width: 200,
+                  height: 100,
+                  child:
+                      Image.asset(populars[index].imageUrl, fit: BoxFit.cover),
+                ),
+                Container(
+                  color: Colors.white,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 5),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            populars[index].price,
+                            style: GoogleFonts.poppins(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                color: const Color.fromARGB(255, 12, 219, 57)),
+                          ),
+                        ),
+                      ),
+                      Text(populars[index].name,
+                          style: GoogleFonts.poppins(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black)),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+        separatorBuilder: (context, index) => const SizedBox(width: 10),
+        itemCount: populars.length,
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+      ),
     );
   }
 
@@ -113,7 +200,7 @@ class HomePage extends StatelessWidget {
         ),
         const Spacer(),
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.symmetric(horizontal: 25),
           child: RichText(
             text: TextSpan(
               text: 'Show All',
