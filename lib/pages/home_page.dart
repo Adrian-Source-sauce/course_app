@@ -24,106 +24,172 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     _getInilitation();
     return Scaffold(
-      backgroundColor: const Color(0xffF5F5F5),
-      body: SafeArea(
-          child: Column(children: [
-        const SizedBox(height: 20),
-        _header(),
-        _headline(),
-        _ketegori(),
-        const SizedBox(
-          height: 10,
-        ),
-        _popularHeader(),
-        const SizedBox(
-          height: 10,
-        ),
-        _popular(),
-        const SizedBox(
-          height: 10,
-        ),
-        _articlesHeader(),
-        const SizedBox(
-          height: 10,
-        ),
-        Expanded(
-          child: ListView.separated(itemBuilder: (context,index) => Container(
-           
-            height: 100,
+        backgroundColor: const Color(0xffF5F5F5),
+        body: SafeArea(
+            child: Column(children: [
+          const SizedBox(height: 20),
+          _header(),
+          _headline(),
+          _ketegori(),
+          const SizedBox(
+            height: 10,
+          ),
+          _popularHeader(),
+          const SizedBox(
+            height: 10,
+          ),
+          _popular(),
+          const SizedBox(
+            height: 10,
+          ),
+          _articlesHeader(),
+          const SizedBox(
+            height: 10,
+          ),
+          _articles()
+        ])),
+        bottomNavigationBar: BottomNavigationBar(items:  [
+          BottomNavigationBarItem(
+              icon: Container(
+                padding: const EdgeInsets.only(top: 15),
+                child: const Icon(
+                  Icons.home,
+                  color: Color(0xff006EEE),
+                  size: 35,
+                ),
+              ),
+              label: ''),
+          BottomNavigationBarItem(
+              icon: Container(
+                padding: EdgeInsets.only(right: 10),
+                child: const Icon(
+                  Icons.list,
+                  color: Color(0xff006EEE),
+                  size: 35,
+                ),
+              ),
+              label: ''),
+          BottomNavigationBarItem(
+              icon: Icon(
+                Icons.book,
+                color: Color(0xff006EEE),
+                size: 30,
+              ),
+              label: ''),
+          BottomNavigationBarItem(
+              icon: CircleAvatar(
+                backgroundImage: AssetImage('assets/images/jhony.jpg'),
+              ),
+              label: "Profile")
+        ]));
+  }
+
+  Expanded _articles() {
+    return Expanded(
+      child: ListView.separated(
+        itemBuilder: (context, index) => Container(
+          height: 100,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+            ),
             child: Row(
               children: [
-                Image.asset(articles[index].imageCourse,fit: BoxFit.cover,width: 100,height: 100,),
+                Container(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        bottomLeft: Radius.circular(20)
+                    ),
+                    child: Image.asset(
+                      articles[index].imageCourse,
+                      fit: BoxFit.cover,
+                      width: 100,
+                      height: 100,
+                    ),
+                  )
+                ),
                 Padding(
                   padding: const EdgeInsets.all(15),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(articles[index].titleCourse,style: GoogleFonts.poppins(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black
-                      ),
-                      
+                      Text(
+                        articles[index].titleCourse,
+                        style: GoogleFonts.poppins(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black),
                       ),
                       Text(
                         articles[index].typeCourse,
-                        textAlign: TextAlign.left,             
-                      style: GoogleFonts.poppins(
-                        fontSize: 12,
-                        color: const Color(0xffA2ADB1)
-                      ),)
+                        textAlign: TextAlign.left,
+                        style: GoogleFonts.poppins(
+                            fontSize: 12, color: const Color(0xffA2ADB1)),
+                      )
                     ],
                   ),
                 ),
-                Expanded(child: IconButton(onPressed: () {}, icon: const Icon(Icons.favorite,color: Colors.pinkAccent,)))
+                Expanded(
+                    child: IconButton(
+                        onPressed: () {},
+                        icon: const Icon(
+                          Icons.favorite,
+                          color: Colors.pinkAccent,
+                        )))
               ],
             ),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
-            ),
-          ), padding: EdgeInsets.only(
-            right: 25,
-            left: 25,
-          )
-          ,separatorBuilder: (context, index) => const SizedBox(height: 10,), itemCount: articles.length,shrinkWrap: true,),
-        )
-      ])),
+          ),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+          ),
+        ),
+        padding: EdgeInsets.only(
+          right: 25,
+          left: 25,
+        ),
+        separatorBuilder: (context, index) => const SizedBox(
+          height: 10,
+        ),
+        itemCount: articles.length,
+        shrinkWrap: true,
+      ),
     );
   }
 
   Row _articlesHeader() {
     return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25),
-            child: RichText(
-              text: TextSpan(
-                text: 'Articles',
-                style: GoogleFonts.poppins(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black),
-              ),
-            ),
-          ),
-          const Spacer(),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25),
-            child: RichText(
-              text: TextSpan(
-                text: 'Show All',
-                style: GoogleFonts.poppins(
-                  fontSize: 10,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 25),
+          child: RichText(
+            text: TextSpan(
+              text: 'Articles',
+              style: GoogleFonts.poppins(
+                  fontSize: 20,
                   fontWeight: FontWeight.w600,
-                  color: const Color.fromARGB(255, 19, 209, 85),
-                ),
+                  color: Colors.black),
+            ),
+          ),
+        ),
+        const Spacer(),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 25),
+          child: RichText(
+            text: TextSpan(
+              text: 'Show All',
+              style: GoogleFonts.poppins(
+                fontSize: 10,
+                fontWeight: FontWeight.w600,
+                color: const Color.fromARGB(255, 19, 209, 85),
               ),
             ),
           ),
-        ],
-      );
+        ),
+      ],
+    );
   }
 
   Container _popular() {
